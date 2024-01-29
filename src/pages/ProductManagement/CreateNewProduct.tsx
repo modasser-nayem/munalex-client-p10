@@ -37,6 +37,7 @@ const CreateNewProduct = () => {
          <ProductForm
             isLoading={isLoading}
             title="Create New Product"
+            buttonTitle="Create"
             handleSubmit={handleSubmit}
          />
       </div>

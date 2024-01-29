@@ -12,6 +12,9 @@ import {
    InboxIcon,
    PowerIcon,
    PlusCircleIcon,
+   ChartBarIcon,
+   ShoppingBagIcon,
+   BuildingStorefrontIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
@@ -38,7 +41,7 @@ const Sidebar = () => {
             <Link to="/products">
                <ListItem placeholder="">
                   <ListItemPrefix placeholder="">
-                     <UserCircleIcon className="h-5 w-5" />
+                     <BuildingStorefrontIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   Products
                </ListItem>
@@ -54,15 +57,15 @@ const Sidebar = () => {
             <Link to="/sales-history">
                <ListItem placeholder="">
                   <ListItemPrefix placeholder="">
-                     <PlusCircleIcon className="h-5 w-5" />
+                     <ChartBarIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   Sales History
                </ListItem>
             </Link>
-            <Link to="/all-sales">
+            {/* <Link to="/all-sales">
                <ListItem placeholder="">
                   <ListItemPrefix placeholder="">
-                     <InboxIcon className="h-5 w-5" />
+                     <ShoppingBagIcon className="h-5 w-5" />
                   </ListItemPrefix>
                   All Sales
                   <ListItemSuffix placeholder="">
@@ -75,7 +78,7 @@ const Sidebar = () => {
                      />
                   </ListItemSuffix>
                </ListItem>
-            </Link>
+            </Link> */}
             <ListItem
                placeholder=""
                onClick={() => dispatch(logOutUser())}

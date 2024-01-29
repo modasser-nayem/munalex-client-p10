@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import FormWrapper from "./FormWrapper";
 import InputItem from "./InputItem";
@@ -13,9 +14,8 @@ import { Button, Input } from "@material-tailwind/react";
 type TProductFormProps = {
    isLoading: boolean;
    title: string;
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   buttonTitle: string;
    handleSubmit: any;
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
    defaultValues?: any;
 };
 
@@ -23,11 +23,14 @@ const ProductForm = ({
    isLoading = false,
    handleSubmit,
    title,
+   buttonTitle,
    defaultValues,
 }: TProductFormProps) => {
-   const [connectivity, setConnectivity] = useState<string[]>([]);
+   const [connectivity, setConnectivity] = useState<string[]>(
+      defaultValues?.connectivity || []
+   );
    const [addConnectivityValue, setAddConnectivityValue] = useState("");
-   const [features, setFeatures] = useState({});
+   const [features, setFeatures] = useState(defaultValues?.features || {});
    const featuresArray = Object.entries(features).map((item) => item);
    const [addFeatureName, setFeatureName] = useState("");
    const [addFeatureValue, setFeatureValue] = useState("");
@@ -35,11 +38,6 @@ const ProductForm = ({
    const onSubmit: SubmitHandler<FieldValues> = (formData) => {
       handleSubmit({ ...formData, features, connectivity });
    };
-
-   if (defaultValues) {
-      setConnectivity(defaultValues.connectivity);
-      setFeatures(defaultValues.features);
-   }
 
    return (
       <div className="flex justify-center items-center min-h-screen">
@@ -267,7 +265,7 @@ const ProductForm = ({
                   className="w-full"
                   placeholder=""
                >
-                  Create
+                  {buttonTitle}
                </Button>
             </FormWrapper>
          </div>

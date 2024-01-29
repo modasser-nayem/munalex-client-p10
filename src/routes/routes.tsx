@@ -6,6 +6,9 @@ import PrivateRoute from "./PrivateRoute";
 import AllProduct from "../pages/ProductManagement/AllProduct";
 import CreateNewProduct from "../pages/ProductManagement/CreateNewProduct";
 import SingleProduct from "../pages/ProductManagement/SingleProduct";
+import ProductUpdate from "../pages/ProductManagement/ProductUpdate";
+import DuplicateProduct from "../pages/ProductManagement/DuplicateProduct";
+import SalesHistory from "../pages/ProductManagement/SalesHistory";
 
 export const routes = createBrowserRouter([
    {
@@ -29,12 +32,20 @@ export const routes = createBrowserRouter([
             element: <SingleProduct />,
          },
          {
+            path: "update-product/:id",
+            element: <ProductUpdate />,
+         },
+         {
+            path: "duplicate-product/:id",
+            element: <DuplicateProduct />,
+         },
+         {
             path: "create-product",
             element: <CreateNewProduct />,
          },
          {
             path: "sales-history",
-            element: <SingleProduct />,
+            element: <SalesHistory />,
          },
          {
             path: "all-sales",

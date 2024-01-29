@@ -1,5 +1,6 @@
 import {
    DocumentDuplicateIcon,
+   PencilSquareIcon,
    ShoppingBagIcon,
    TrashIcon,
 } from "@heroicons/react/24/solid";
@@ -13,6 +14,7 @@ import {
    ButtonGroup,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import SaleProduct from "../pages/ProductManagement/SaleProduct";
 
 export type TProductCardProps = {
    id: string;
@@ -99,10 +101,7 @@ const ProductCard = ({
             placeholder=""
             className="pt-0 border-2"
          >
-            <ButtonGroup
-               placeholder=""
-               fullWidth
-            >
+            <ButtonGroup placeholder="">
                <Button
                   className="hover:scale-105 flex items-center gap-1"
                   placeholder=""
@@ -110,21 +109,36 @@ const ProductCard = ({
                   Delete
                   <TrashIcon className="h-4 w-4 text-white" />
                </Button>
-               <Button
-                  className="hover:scale-105 flex items-center gap-1"
-                  placeholder=""
+               <Link
+                  className="rounded-none"
+                  to={`/duplicate-product/${id}`}
                >
-                  <DocumentDuplicateIcon className="h-4 w-4 text-white" />
-                  Duplicate
-               </Button>
-               <Button
+                  <Button
+                     className="hover:scale-105 flex items-center gap-1"
+                     placeholder=""
+                  >
+                     <DocumentDuplicateIcon className="h-4 w-4 text-white" />
+                     Duplicate
+                  </Button>
+               </Link>
+               {/* <Button
                   className="hover:scale-105 flex items-center gap-1"
                   placeholder=""
                >
                   Sell
                   <ShoppingBagIcon className="h-4 w-4 text-white" />
-               </Button>
+               </Button> */}
+               <SaleProduct productId={id} />
             </ButtonGroup>
+            <Link to={`/update-product/${id}`}>
+               <Button
+                  className="mt-3 w-full hover:scale-105 flex items-center justify-center gap-1 bg-orange-500"
+                  placeholder=""
+               >
+                  Edit
+                  <PencilSquareIcon className="h-4 w-4 text-white" />
+               </Button>
+            </Link>
          </CardFooter>
       </Card>
    );
