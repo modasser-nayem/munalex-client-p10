@@ -14,15 +14,23 @@ const Login = () => {
    const [loginUser, { isLoading, isSuccess, isError, data, error }] =
       useLoginUserMutation();
 
+   console.log(isError, error);
+
    let toastId;
    if (isSuccess) {
-      toastId = toast.success(data.message);
+      toastId = toast.success(data?.message);
       const token = data.data.access_token;
       dispatch(setToken(token));
       navigate("/");
    }
    if (isError) {
-      toast.error(error.data.message, { id: toastId });
+      if (error && error.data && error.data.message) {
+         toast.error(error.data.message, { id: toastId });
+      } else {
+         toast.error("Failed to login, server error, try again", {
+            id: toastId,
+         });
+      }
       console.log(error);
    }
    const onSubmit: SubmitHandler<FieldValues> = async (fromData) => {
@@ -50,6 +58,7 @@ const Login = () => {
                   <Button
                      type="submit"
                      loading={isLoading}
+                     className=""
                      placeholder=""
                   >
                      Login

@@ -1,10 +1,15 @@
-import { Button } from "@material-tailwind/react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar";
 
 const MainLayout = () => {
    return (
-      <div className="text-5xl text-center mt-8">
-         Welcome to Munalex Electric gadgets Management Dashboard
-         <Button placeholder={""}>Button</Button>
+      <div className="flex flex-col md:flex-row">
+         <div className="">
+            <Sidebar />
+         </div>
+         <div className="border-2 border-red-600 w-full">
+            <Outlet />
+         </div>
       </div>
    );
 };
