@@ -12,9 +12,9 @@ export const salesApi = baseApi.injectEndpoints({
       }),
       getSalesHistory: builder.query({
          query: (query) => ({
-            url: `/sales`,
+            url: `/sales/history`,
             method: "GET",
-            params: query,
+            params: { category: query },
          }),
       }),
    }),

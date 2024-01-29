@@ -22,7 +22,7 @@ const AllProduct = () => {
       <div>
          <Card
             placeholder=""
-            className="h-full w-full"
+            className="h-full w-full p-5"
          >
             <CardHeader
                placeholder=""
@@ -71,7 +71,7 @@ const AllProduct = () => {
             <CardBody
                key="5"
                placeholder=""
-               className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5"
+               className="flex flex-wrap gap-8"
             >
                {isLoading ? (
                   <Loading />

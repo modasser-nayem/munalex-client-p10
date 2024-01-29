@@ -8,14 +8,16 @@ type TInputSelectOption = {
 type TInputSelectProps = {
    label: string;
    options: TInputSelectOption[];
+   defaultValue?: string;
 };
 
-const InputSelect = ({ label, options }: TInputSelectProps) => {
+const InputSelect = ({ label, options, defaultValue }: TInputSelectProps) => {
    return (
       <div className="w-full mb-5">
          <Select
             placeholder=""
             label={label}
+            defaultValue={defaultValue && defaultValue}
          >
             {options.map((item, i) => (
                <Option

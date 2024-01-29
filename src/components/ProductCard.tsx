@@ -121,13 +121,6 @@ const ProductCard = ({
                      Duplicate
                   </Button>
                </Link>
-               {/* <Button
-                  className="hover:scale-105 flex items-center gap-1"
-                  placeholder=""
-               >
-                  Sell
-                  <ShoppingBagIcon className="h-4 w-4 text-white" />
-               </Button> */}
                <SaleProduct productId={id} />
             </ButtonGroup>
             <Link to={`/update-product/${id}`}>

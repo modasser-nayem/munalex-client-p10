@@ -34,8 +34,11 @@ const SingleProduct = () => {
                            Features
                         </Typography>
                         {data.data.features &&
-                           Object.entries(data.data.features).map((item) => (
-                              <div className="flex items-center gap-1">
+                           Object.entries(data.data.features).map((item, i) => (
+                              <div
+                                 key={i}
+                                 className="flex items-center gap-1"
+                              >
                                  <Typography
                                     placeholder=""
                                     variant="h6"

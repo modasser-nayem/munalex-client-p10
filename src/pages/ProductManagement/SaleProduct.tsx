@@ -47,9 +47,6 @@ const SaleProduct = ({ productId }: TSaleProductProps) => {
          formData.quantity = Number(formData.quantity);
       }
       await saleProduct({ ...formData, productId });
-      if (isSuccess) {
-         setOpen(!open);
-      }
    };
 
    return (
@@ -113,6 +110,7 @@ const SaleProduct = ({ productId }: TSaleProductProps) => {
                         type="submit"
                         variant="gradient"
                         loading={isLoading}
+                        onClick={handleOpen}
                      >
                         Sale
                      </Button>
