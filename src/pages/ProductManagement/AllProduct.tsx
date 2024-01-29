@@ -132,42 +132,41 @@ const AllProduct = () => {
             </CardHeader>
             <CardBody
                placeholder=""
-               className=""
+               className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5"
             >
-               <div>Hello</div>
-            </CardBody>
-            {isLoading ? (
-               <Loading />
-            ) : !data ? (
-               <Loading />
-            ) : (
-               data.data.map(
-                  ({
-                     _id,
-                     name,
-                     image,
-                     model,
-                     price,
-                     quantity,
-                     brand,
-                     features,
-                  }: TProductCardProps) => (
-                     <div>
-                        <ProductCard
-                           id={_id}
-                           name={name}
-                           image={image}
-                           model={model}
-                           price={price}
-                           quantity={quantity}
-                           brand={brand}
-                           features={features}
-                           key={_id}
-                        />
-                     </div>
+               {isLoading ? (
+                  <Loading />
+               ) : !data ? (
+                  <Loading />
+               ) : (
+                  data.data.map(
+                     ({
+                        _id,
+                        name,
+                        image,
+                        model,
+                        price,
+                        quantity,
+                        brand,
+                        features,
+                     }: TProductCardProps) => (
+                        <div className="w-fit">
+                           <ProductCard
+                              id={_id}
+                              name={name}
+                              image={image}
+                              model={model}
+                              price={price}
+                              quantity={quantity}
+                              brand={brand}
+                              features={features}
+                              key={_id}
+                           />
+                        </div>
+                     )
                   )
-               )
-            )}
+               )}
+            </CardBody>
          </Card>
       </div>
    );

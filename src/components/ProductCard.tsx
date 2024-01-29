@@ -39,63 +39,65 @@ const ProductCard = ({
    return (
       <Card
          placeholder=""
-         className="mt-6 w-96"
+         className="mt-6 w-96 h-full flex flex-col justify-between"
       >
-         <CardHeader
-            placeholder=""
-            color="blue-gray"
-            className="relative h-56"
-         >
-            <img
-               src={image}
-               alt="card-image"
-            />
-         </CardHeader>
-         <CardBody placeholder="">
-            <Typography
+         <div>
+            <CardHeader
                placeholder=""
-               variant="h5"
                color="blue-gray"
-               className="mb-2"
+               className="relative h-56"
             >
-               {name}
-            </Typography>
-
-            <div className="flex items-center justify-between">
+               <img
+                  src={image}
+                  alt="card-image"
+               />
+            </CardHeader>
+            <CardBody placeholder="">
                <Typography
                   placeholder=""
-                  variant="h6"
+                  variant="h5"
                   color="blue-gray"
-                  className="text-lg"
+                  className="mb-2"
                >
-                  Features
+                  {name}
                </Typography>
-               <Link
-                  className="hover:text-blue-500 text-orange-500 text-base font-semibold"
-                  to={`/products/${id}`}
-               >
-                  {"( See Details... )"}
-               </Link>
-            </div>
-            <div>
-               {features &&
-                  Object.entries(features).map((item) => (
-                     <div className="flex items-center gap-1">
-                        <Typography
-                           placeholder=""
-                           variant="h6"
-                        >
-                           {item[0]}
-                        </Typography>
-                        {":"}
-                        <Typography placeholder="">{item[1]}</Typography>
-                     </div>
-                  ))}
-            </div>
-         </CardBody>
+
+               <div className="flex items-center justify-between">
+                  <Typography
+                     placeholder=""
+                     variant="h6"
+                     color="blue-gray"
+                     className="text-lg"
+                  >
+                     Features
+                  </Typography>
+                  <Link
+                     className="hover:text-blue-500 text-orange-500 text-base font-semibold"
+                     to={`/products/${id}`}
+                  >
+                     {"( See Details... )"}
+                  </Link>
+               </div>
+               <div>
+                  {features &&
+                     Object.entries(features).map((item) => (
+                        <div className="flex items-start gap-1">
+                           <Typography
+                              placeholder=""
+                              variant="h6"
+                           >
+                              {item[0]}
+                           </Typography>
+                           {":"}
+                           <Typography placeholder="">{item[1]}</Typography>
+                        </div>
+                     ))}
+               </div>
+            </CardBody>
+         </div>
          <CardFooter
             placeholder=""
-            className="pt-0"
+            className="pt-0 border-2"
          >
             <ButtonGroup
                placeholder=""

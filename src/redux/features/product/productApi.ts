@@ -3,9 +3,10 @@ import { baseApi } from "../../api/baseApi";
 export const productApi = baseApi.injectEndpoints({
    endpoints: (builder) => ({
       getAllProducts: builder.query({
-         query: () => ({
+         query: (query) => ({
             url: "/products",
             method: "GET",
+            params: query,
          }),
       }),
       getSingleProduct: builder.query({
@@ -14,11 +15,28 @@ export const productApi = baseApi.injectEndpoints({
             method: "GET",
          }),
       }),
-      deleteProduct: builder.query({
+      createProduct: builder.mutation({
+         query: (productInfo) => ({
+            url: "/products",
+            method: "POST",
+            body: productInfo,
+         }),
+         invalidatesTags: ["product"],
+      }),
+      updateProduct: builder.mutation({
+         query: ({ id, productInfo }) => ({
+            url: `/products/${id}`,
+            method: "PUT",
+            body: productInfo,
+         }),
+         invalidatesTags: ["product"],
+      }),
+      deleteProduct: builder.mutation({
          query: (id: string) => ({
             url: `/products/${id}`,
             method: "DELETE",
          }),
+         invalidatesTags: ["product"],
       }),
    }),
 });
@@ -26,5 +44,7 @@ export const productApi = baseApi.injectEndpoints({
 export const {
    useGetAllProductsQuery,
    useGetSingleProductQuery,
-   useDeleteProductQuery,
+   useCreateProductMutation,
+   useUpdateProductMutation,
+   useDeleteProductMutation,
 } = productApi;
