@@ -7,31 +7,28 @@ import { useLoginUserMutation } from "../redux/features/auth/authApi";
 import { toast } from "sonner";
 import { useAppDispatch } from "../redux/hooks";
 import { setToken } from "../redux/features/auth/authSlice";
+import { isReduxRTQError } from "../redux/api/baseApi";
 
 const Login = () => {
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
-   const [loginUser, { isLoading, isSuccess, isError, data, error }] =
-      useLoginUserMutation();
-
-   console.log(isError, error);
+   const [loginUser, { isLoading, data, error }] = useLoginUserMutation();
 
    let toastId;
-   if (isSuccess) {
+   if (data) {
       toastId = toast.success(data?.message);
       const token = data.data.access_token;
       dispatch(setToken(token));
       navigate("/");
    }
-   if (isError) {
-      if (error && error.data && error.data.message) {
+   if (error) {
+      if (isReduxRTQError(error)) {
          toast.error(error.data.message, { id: toastId });
       } else {
          toast.error("Failed to login, server error, try again", {
             id: toastId,
          });
       }
-      console.log(error);
    }
    const onSubmit: SubmitHandler<FieldValues> = async (fromData) => {
       await loginUser(fromData);

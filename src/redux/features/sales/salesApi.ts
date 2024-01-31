@@ -8,7 +8,7 @@ export const salesApi = baseApi.injectEndpoints({
             method: "POST",
             body: saleInfo,
          }),
-         invalidatesTags: ["sale", "product"],
+         invalidatesTags: ["product", "sale"],
       }),
       getSalesHistory: builder.query({
          query: (query) => ({
@@ -16,6 +16,7 @@ export const salesApi = baseApi.injectEndpoints({
             method: "GET",
             params: { category: query },
          }),
+         providesTags: ["sale"],
       }),
    }),
 });

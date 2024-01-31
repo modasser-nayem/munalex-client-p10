@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ThemeProvider>
          <Toaster
             position="top-center"
-            duration={3000}
+            duration={2000}
             richColors
          />
          <Provider store={store}>

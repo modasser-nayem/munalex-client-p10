@@ -6,22 +6,24 @@ import {
 } from "../../redux/features/product/productApi";
 import { useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { isReduxRTQError } from "../../redux/api/baseApi";
 
 const ProductUpdate = () => {
    const params = useParams();
-   const { data: productData, isSuccess: productGetIsSuccess } =
-      useGetSingleProductQuery(params.id);
+   const { data: productData, isSuccess: isProductDataSuccess } =
+      useGetSingleProductQuery(params.id as string);
 
-   const [updateProduct, { isLoading, isSuccess, isError, data, error }] =
+   const [updateProduct, { isLoading, data, error }] =
       useUpdateProductMutation();
 
    let toastId;
-   if (isSuccess) {
+   if (data) {
       toastId = toast.success(data?.message);
    }
-   if (isError) {
-      if (error && error.data && error.data.message) {
-         toast.error(error.data.message, { id: toastId });
+   if (error) {
+      if (isReduxRTQError(error)) {
+         toast.error(error?.data?.message, { id: toastId });
       } else {
          toast.error("Failed to update product, server error, try again", {
             id: toastId,
@@ -29,7 +31,7 @@ const ProductUpdate = () => {
       }
    }
 
-   const handleSubmit = (formData: unknown) => {
+   const handleSubmit: SubmitHandler<FieldValues> = (formData) => {
       if (formData.price) {
          formData.price = Number(formData.price);
       }
@@ -41,7 +43,7 @@ const ProductUpdate = () => {
 
    return (
       <>
-         {!productGetIsSuccess ? (
+         {!productData && !isProductDataSuccess ? (
             <Loading />
          ) : (
             <div className="mt-10">

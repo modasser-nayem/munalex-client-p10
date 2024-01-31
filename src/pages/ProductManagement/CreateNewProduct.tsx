@@ -1,18 +1,20 @@
 import { toast } from "sonner";
 import ProductForm from "../../components/form/ProductForm";
 import { useCreateProductMutation } from "../../redux/features/product/productApi";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { isReduxRTQError } from "../../redux/api/baseApi";
 
 const CreateNewProduct = () => {
-   const [createProduct, { isLoading, isSuccess, isError, data, error }] =
+   const [createProduct, { isLoading, data, error }] =
       useCreateProductMutation();
 
    let toastId;
-   if (isSuccess) {
+   if (data) {
       toastId = toast.success(data?.message);
    }
-   if (isError) {
-      if (error && error.data && error.data.message) {
-         toast.error(error.data.message, { id: toastId });
+   if (error) {
+      if (isReduxRTQError(error)) {
+         toast.error(error?.data?.message, { id: toastId });
       } else {
          toast.error("Failed to create product, server error, try again", {
             id: toastId,
@@ -20,13 +22,11 @@ const CreateNewProduct = () => {
       }
    }
 
-   const handleSubmit = (formData: unknown) => {
+   const handleSubmit: SubmitHandler<FieldValues> = (formData) => {
       if (formData.price) {
          formData.price = Number(formData.price);
-         console.log(formData);
       }
       if (formData.quantity) {
-         console.log(formData.quantity);
          formData.quantity = Number(formData.quantity);
       }
       createProduct(formData);

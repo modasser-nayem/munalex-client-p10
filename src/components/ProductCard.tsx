@@ -1,7 +1,6 @@
 import {
    DocumentDuplicateIcon,
    PencilSquareIcon,
-   ShoppingBagIcon,
    TrashIcon,
 } from "@heroicons/react/24/solid";
 import {
@@ -15,8 +14,12 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import SaleProduct from "../pages/ProductManagement/SaleProduct";
+import { useDeleteProductMutation } from "../redux/features/product/productApi";
+import { toast } from "sonner";
+import { isReduxRTQError } from "../redux/api/baseApi";
 
 export type TProductCardProps = {
+   _id?: string;
    id: string;
    name: string;
    image: string;
@@ -38,6 +41,23 @@ const ProductCard = ({
    brand,
    features,
 }: TProductCardProps) => {
+   const [deleteProduct, { isLoading, data, error }] =
+      useDeleteProductMutation();
+
+   let toastId;
+   if (data) {
+      toastId = toast.success(data?.message);
+   }
+   if (error) {
+      if (isReduxRTQError(error)) {
+         toast.error(error.data.message, { id: toastId });
+      } else {
+         toast.error("Failed to delete product, server error, try again", {
+            id: toastId,
+         });
+      }
+   }
+
    return (
       <Card
          placeholder=""
@@ -63,7 +83,12 @@ const ProductCard = ({
                >
                   {name}
                </Typography>
-
+               <div className="">
+                  <p>Brand: {brand}</p>
+                  <p>Model: {model}</p>
+                  <p>Price: {price}</p>
+                  <p>Quantity: {quantity}</p>
+               </div>
                <div className="flex items-center justify-between">
                   <Typography
                      placeholder=""
@@ -82,8 +107,11 @@ const ProductCard = ({
                </div>
                <div>
                   {features &&
-                     Object.entries(features).map((item) => (
-                        <div className="flex items-start gap-1">
+                     Object.entries(features).map((item, i) => (
+                        <div
+                           key={i}
+                           className="flex items-start gap-1"
+                        >
                            <Typography
                               placeholder=""
                               variant="h6"
@@ -91,7 +119,7 @@ const ProductCard = ({
                               {item[0]}
                            </Typography>
                            {":"}
-                           <Typography placeholder="">{item[1]}</Typography>
+                           <Typography placeholder="">{`${item[1]}`}</Typography>
                         </div>
                      ))}
                </div>
@@ -103,8 +131,10 @@ const ProductCard = ({
          >
             <ButtonGroup placeholder="">
                <Button
+                  onClick={() => deleteProduct(`${id}`)}
                   className="hover:scale-105 flex items-center gap-1"
                   placeholder=""
+                  loading={isLoading}
                >
                   Delete
                   <TrashIcon className="h-4 w-4 text-white" />
@@ -114,7 +144,7 @@ const ProductCard = ({
                   to={`/duplicate-product/${id}`}
                >
                   <Button
-                     className="hover:scale-105 flex items-center gap-1"
+                     className="hover:scale-105 flex items-center gap-1 rounded-none"
                      placeholder=""
                   >
                      <DocumentDuplicateIcon className="h-4 w-4 text-white" />

@@ -5,14 +5,15 @@ import { Typography } from "@material-tailwind/react";
 
 const SingleProduct = () => {
    const params = useParams();
-   const { data, isLoading, isError } = useGetSingleProductQuery(params.id);
+   const { data, isLoading } = useGetSingleProductQuery(params.id as string);
+
+   if (isLoading) {
+      return <Loading />;
+   }
+
    return (
       <>
-         {isLoading ? (
-            <Loading />
-         ) : isError ? (
-            <Loading />
-         ) : (
+         {data && (
             <div>
                <div>
                   <img
@@ -47,7 +48,7 @@ const SingleProduct = () => {
                                  </Typography>
                                  {":"}
                                  <Typography placeholder="">
-                                    {item[1]}
+                                    {`${item[1]}`}
                                  </Typography>
                               </div>
                            ))}

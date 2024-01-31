@@ -1,42 +1,40 @@
-import React from "react";
 import {
    Button,
    Dialog,
    Card,
-   CardHeader,
    CardBody,
    CardFooter,
    Typography,
-   Input,
-   Checkbox,
 } from "@material-tailwind/react";
-import { ShoppingBagIcon } from "@heroicons/react/24/solid";
+import { ShoppingBagIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import FormWrapper from "../../components/form/FormWrapper";
 import InputItem from "../../components/form/InputItem";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useSaleProductMutation } from "../../redux/features/sales/salesApi";
 import { toast } from "sonner";
+import { isReduxRTQError } from "../../redux/api/baseApi";
+import { useState } from "react";
 
 type TSaleProductProps = {
    productId: string;
 };
 
 const SaleProduct = ({ productId }: TSaleProductProps) => {
-   const [open, setOpen] = React.useState(false);
+   const [open, setOpen] = useState(false);
    const handleOpen = () => setOpen((cur) => !cur);
 
-   const [saleProduct, { isLoading, isError, isSuccess, data, error }] =
+   const [saleProduct, { isLoading, isSuccess, data, error }] =
       useSaleProductMutation();
 
    let toastId;
    if (isSuccess) {
       toastId = toast.success(data?.message);
    }
-   if (isError) {
-      if (error && error.data && error.data.message) {
+   if (error) {
+      if (isReduxRTQError(error)) {
          toast.error(error.data.message, { id: toastId });
       } else {
-         toast.error("Failed to create product, server error, try again", {
+         toast.error("Failed to sale product, server error, try again", {
             id: toastId,
          });
       }
@@ -47,13 +45,16 @@ const SaleProduct = ({ productId }: TSaleProductProps) => {
          formData.quantity = Number(formData.quantity);
       }
       await saleProduct({ ...formData, productId });
+      if (isSuccess) {
+         setOpen((cur) => !cur);
+      }
    };
 
    return (
       <>
          <Button
             onClick={handleOpen}
-            className="hover:scale-105 flex items-center gap-1"
+            className="hover:scale-105 flex items-center gap-1 rounded-s-none rounded-e-lg"
             placeholder=""
          >
             Sell
@@ -75,6 +76,19 @@ const SaleProduct = ({ productId }: TSaleProductProps) => {
                      placeholder=""
                      className="flex flex-col gap-4"
                   >
+                     <div className="flex items-center justify-between mb-4">
+                        <Typography
+                           placeholder=""
+                           variant="h4"
+                           color="blue-gray"
+                        >
+                           Sale Product
+                        </Typography>
+                        <XMarkIcon
+                           onClick={handleOpen}
+                           className="h-8 w-8 hover:scale-75 transition-all"
+                        />
+                     </div>
                      <InputItem
                         label="Quantity"
                         name="quantity"
@@ -96,21 +110,13 @@ const SaleProduct = ({ productId }: TSaleProductProps) => {
                   </CardBody>
                   <CardFooter
                      placeholder=""
-                     className="pt-0 flex items-center justify-between"
+                     className="pt-0 flex justify-end"
                   >
-                     <Button
-                        placeholder=""
-                        variant="gradient"
-                        onClick={handleOpen}
-                     >
-                        Cancel
-                     </Button>
                      <Button
                         placeholder=""
                         type="submit"
                         variant="gradient"
                         loading={isLoading}
-                        onClick={handleOpen}
                      >
                         Sale
                      </Button>

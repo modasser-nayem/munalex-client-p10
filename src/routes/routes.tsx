@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import PrivateRoute from "./PrivateRoute";
@@ -9,13 +8,15 @@ import SingleProduct from "../pages/ProductManagement/SingleProduct";
 import ProductUpdate from "../pages/ProductManagement/ProductUpdate";
 import DuplicateProduct from "../pages/ProductManagement/DuplicateProduct";
 import SalesHistory from "../pages/ProductManagement/SalesHistory";
+import ErrorPage from "../pages/ErrorPage";
+import MainLayout from "../components/layout/MainLayout";
 
 export const routes = createBrowserRouter([
    {
       path: "/",
       element: (
          <PrivateRoute>
-            <App />
+            <MainLayout />
          </PrivateRoute>
       ),
       children: [
@@ -60,5 +61,9 @@ export const routes = createBrowserRouter([
    {
       path: "/login",
       element: <Login />,
+   },
+   {
+      path: "*",
+      element: <ErrorPage />,
    },
 ]);

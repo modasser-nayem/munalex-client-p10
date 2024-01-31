@@ -8,12 +8,14 @@ export const productApi = baseApi.injectEndpoints({
             method: "GET",
             params: query,
          }),
+         providesTags: ["product"],
       }),
       getSingleProduct: builder.query({
          query: (id: string) => ({
             url: `/products/${id}`,
             method: "GET",
          }),
+         providesTags: ["product"],
       }),
       createProduct: builder.mutation({
          query: (productInfo) => ({
@@ -38,6 +40,12 @@ export const productApi = baseApi.injectEndpoints({
          }),
          invalidatesTags: ["product"],
       }),
+      dynamicFilteringData: builder.query({
+         query: () => ({
+            url: "/products/filtering-data",
+            method: "GET",
+         }),
+      }),
    }),
 });
 
@@ -47,4 +55,5 @@ export const {
    useCreateProductMutation,
    useUpdateProductMutation,
    useDeleteProductMutation,
+   useDynamicFilteringDataQuery,
 } = productApi;

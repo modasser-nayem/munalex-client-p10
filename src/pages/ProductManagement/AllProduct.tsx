@@ -1,73 +1,81 @@
-import { useGetAllProductsQuery } from "../../redux/features/product/productApi";
-import { PencilIcon } from "@heroicons/react/24/solid";
 import {
-   ArrowDownTrayIcon,
-   MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
+   useDynamicFilteringDataQuery,
+   useGetAllProductsQuery,
+} from "../../redux/features/product/productApi";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
    Card,
    CardHeader,
    Typography,
-   Button,
    CardBody,
    Input,
 } from "@material-tailwind/react";
 import ProductCard, { TProductCardProps } from "../../components/ProductCard";
 import Loading from "../../components/Loading";
+import ProductFiltering from "../../components/ProductFiltering";
+import { useState } from "react";
 
 const AllProduct = () => {
-   const { data, isLoading, isSuccess, isError } =
-      useGetAllProductsQuery(undefined);
+   const [filter, setFilter] = useState({});
+   // get filtering data
+   const { data: dynamicFilterData, isLoading: isDynamicFilterLoading } =
+      useDynamicFilteringDataQuery(undefined);
+
+   // get all product
+   const { data, isLoading } = useGetAllProductsQuery(undefined);
+
+   console.log(filter);
    return (
       <div>
          <Card
             placeholder=""
-            className="h-full w-full p-5"
+            className="h-full w-full"
          >
-            <CardHeader
-               placeholder=""
-               floated={false}
-               shadow={false}
-               className="rounded-none"
-            >
-               <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
-                  <div>
-                     <Typography
-                        placeholder=""
-                        variant="h5"
-                        color="blue-gray"
-                     >
-                        Recent Transactions
-                     </Typography>
-                     <Typography
-                        placeholder=""
-                        color="gray"
-                        className="mt-1 font-normal"
-                     >
-                        These are details about the last transactions
-                     </Typography>
-                  </div>
-                  <div className="flex w-full shrink-0 gap-2 md:w-max">
-                     <div className="w-full md:w-72">
-                        <Input
-                           label="Search"
-                           icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                        />
+            {isDynamicFilterLoading ? (
+               <Loading />
+            ) : !dynamicFilterData ? (
+               <Loading />
+            ) : (
+               <CardHeader
+                  placeholder=""
+                  floated={false}
+                  shadow={false}
+                  className="rounded-none"
+               >
+                  <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
+                     <div>
+                        <Typography
+                           placeholder=""
+                           variant="h5"
+                           color="blue-gray"
+                        >
+                           Recent Transactions
+                        </Typography>
+                        <Typography
+                           placeholder=""
+                           color="gray"
+                           className="mt-1 font-normal"
+                        >
+                           These are details about the last transactions
+                        </Typography>
                      </div>
-                     <Button
-                        placeholder=""
-                        className="flex items-center gap-3"
-                        size="sm"
-                     >
-                        <ArrowDownTrayIcon
-                           strokeWidth={2}
-                           className="h-4 w-4"
-                        />{" "}
-                        Download
-                     </Button>
+                     <div className="flex w-full shrink-0 gap-2 md:w-max">
+                        <div className="w-full md:w-72">
+                           <Input
+                              crossOrigin=""
+                              label="Search"
+                              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                           />
+                        </div>
+                     </div>
                   </div>
-               </div>
-            </CardHeader>
+                  <ProductFiltering
+                     filteringData={dynamicFilterData.data}
+                     filter={filter}
+                     setFilter={setFilter}
+                  />
+               </CardHeader>
+            )}
             <CardBody
                key="5"
                placeholder=""
@@ -89,9 +97,12 @@ const AllProduct = () => {
                         brand,
                         features,
                      }: TProductCardProps) => (
-                        <div className="w-fit">
+                        <div
+                           className="w-fit"
+                           key={_id}
+                        >
                            <ProductCard
-                              id={_id}
+                              id={_id as string}
                               name={name}
                               image={image}
                               model={model}
@@ -99,7 +110,6 @@ const AllProduct = () => {
                               quantity={quantity}
                               brand={brand}
                               features={features}
-                              key={_id}
                            />
                         </div>
                      )

@@ -12,14 +12,25 @@ import { useState } from "react";
 import Loading from "../../components/Loading";
 import { Link } from "react-router-dom";
 
+type TSaleDataType = {
+   _id: string;
+   productId: string;
+   quantity: number;
+   buyer: string;
+   date: string;
+};
+
 const SalesHistory = () => {
    const [category, setCategory] = useState("weekly");
-   const { data, isLoading, isSuccess, refetch } =
-      useGetSalesHistoryQuery(category);
-   const onChange = (e) => {
+   const { data, isLoading } = useGetSalesHistoryQuery(category);
+   const onChange = (e: string) => {
       setCategory(e);
-      refetch();
    };
+
+   if (isLoading) {
+      return <Loading />;
+   }
+
    return (
       <div className="">
          <div className="w-72 mx-auto mt-10 mb-5">
@@ -28,7 +39,7 @@ const SalesHistory = () => {
                value={category}
                defaultValue={category}
                label="History Category"
-               onChange={onChange}
+               onChange={(e) => onChange(e ? e : category)}
                size="lg"
             >
                <Option value="daily">Daily</Option>
@@ -37,13 +48,9 @@ const SalesHistory = () => {
                <Option value="yearly">Yearly</Option>
             </Select>
          </div>
-         {isLoading ? (
-            <Loading />
-         ) : !isSuccess ? (
-            <Loading />
-         ) : (
-            <div className="flex gap-6 flex-wrap mx-auto">
-               {data.data.map((item) => (
+         <div className="flex gap-6 flex-wrap mx-auto">
+            {data &&
+               data.data.map((item: TSaleDataType) => (
                   <Card
                      placeholder=""
                      className="mt-6 w-72"
@@ -97,8 +104,7 @@ const SalesHistory = () => {
                      </CardFooter>
                   </Card>
                ))}
-            </div>
-         )}
+         </div>
       </div>
    );
 };

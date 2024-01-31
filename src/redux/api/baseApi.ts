@@ -10,8 +10,9 @@ import { RootState } from "../store";
 import { jwtDecode } from "jwt-decode";
 import { logOutUser } from "../features/auth/authSlice";
 
+const serverUrl = import.meta.env.VITE_SERVER_URL;
 const baseQuery = fetchBaseQuery({
-   baseUrl: "http://localhost:5000/api/v1",
+   baseUrl: serverUrl,
    prepareHeaders: (headers, api) => {
       const token = (api.getState() as RootState).auth.token;
       if (token) {
@@ -21,12 +22,19 @@ const baseQuery = fetchBaseQuery({
    },
 });
 
+interface TReduxRtqError {
+   status: number;
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   data: any;
+}
+
 const baseQueryTokenChecking: BaseQueryFn<
    FetchArgs,
    BaseQueryApi,
    DefinitionType
    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 > = async (args, api, extraOptions): Promise<any> => {
+   // try {
    let result = await baseQuery(args, api, extraOptions);
 
    const currentToken = (api.getState() as RootState).auth.token;
@@ -50,6 +58,16 @@ const baseQueryTokenChecking: BaseQueryFn<
 export const baseApi = createApi({
    reducerPath: "baseApi",
    baseQuery: baseQueryTokenChecking,
-   tagTypes: ["product", "sale"],
+   tagTypes: ["user", "product", "sale"],
    endpoints: () => ({}),
 });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isReduxRTQError = (error: any): error is TReduxRtqError => {
+   return (
+      typeof error === "object" &&
+      error !== null &&
+      "status" in error &&
+      "data" in error
+   );
+};

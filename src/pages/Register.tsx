@@ -5,20 +5,26 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../redux/features/auth/authApi";
 import { toast } from "sonner";
+import { isReduxRTQError } from "../redux/api/baseApi";
 
 const Register = () => {
    const navigate = useNavigate();
 
-   const [registerUser, { isLoading, isError, isSuccess, data, error }] =
-      useRegisterUserMutation();
+   const [registerUser, { isLoading, data, error }] = useRegisterUserMutation();
 
    let toastId;
-   if (isSuccess) {
-      toastId = toast.success(data.message);
+   if (data) {
+      toastId = toast.success(data?.message);
       navigate("/login");
    }
-   if (isError) {
-      toast.error(error.data.message, { id: toastId });
+   if (error) {
+      if (isReduxRTQError(error)) {
+         toast.error(error.data.message, { id: toastId });
+      } else {
+         toast.error("Failed to register, server error, try again", {
+            id: toastId,
+         });
+      }
    }
 
    const onSubmit: SubmitHandler<FieldValues> = async (fromData) => {

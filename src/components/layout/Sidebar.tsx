@@ -4,16 +4,11 @@ import {
    List,
    ListItem,
    ListItemPrefix,
-   ListItemSuffix,
-   Chip,
 } from "@material-tailwind/react";
 import {
-   UserCircleIcon,
-   InboxIcon,
    PowerIcon,
    PlusCircleIcon,
    ChartBarIcon,
-   ShoppingBagIcon,
    BuildingStorefrontIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";

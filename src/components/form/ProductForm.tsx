@@ -193,7 +193,7 @@ const ProductForm = ({
                                  <p className="text-white flex items-center gap-2">
                                     {item[0]}
                                     <Bars2Icon className="h-4 w-4" />
-                                    {item[1]}
+                                    {`${item[1]}`}
                                  </p>
                                  <TrashIcon className="h-4 w-4 hidden group-hover:block text-white" />
                               </div>
