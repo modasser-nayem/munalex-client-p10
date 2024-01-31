@@ -33,7 +33,7 @@ const CreateNewProduct = () => {
    };
 
    return (
-      <div className="mt-10">
+      <div className="my-10 mx-5">
          <ProductForm
             isLoading={isLoading}
             title="Create New Product"

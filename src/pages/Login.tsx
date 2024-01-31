@@ -16,6 +16,7 @@ const Login = () => {
 
    let toastId;
    if (data) {
+      console.log(data);
       toastId = toast.success(data?.message);
       const token = data.data.access_token;
       dispatch(setToken(token));
@@ -35,7 +36,7 @@ const Login = () => {
    };
 
    return (
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center h-screen my-10 mx-5">
          <h2 className="text-3xl font-semibold mb-6">Login</h2>
          <div className=" border-blue-600 sm:w-[400px]">
             <FormWrapper onSubmit={onSubmit}>

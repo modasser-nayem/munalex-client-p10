@@ -6,9 +6,9 @@ import {
    MenuList,
    MenuItem,
    Checkbox,
-   Option,
-   Select,
 } from "@material-tailwind/react";
+import FilterOneSelect from "./FilterOneSelect";
+import { MouseEvent } from "react";
 // import { useState } from "react";
 // import PriceRangeSelector from "./PriceRangeSelector";
 
@@ -31,105 +31,94 @@ const ProductFiltering = ({
 
    return (
       <div>
-         <div className="flex items-center flex-wrap gap-5">
+         <div className="flex flex-col gap-5">
             {/* categories */}
-            <div className="w-fit">
-               <Select
-                  placeholder=""
-                  value={filter.category}
-                  label="Filter by Category"
-                  onChange={(e) => setFilter({ ...filter, category: e })}
-                  size="md"
-                  className=""
-               >
-                  {filteringData.categories.map((item: string, i: number) => (
-                     <Option
-                        value={item}
-                        key={i}
-                     >
-                        {item}
-                     </Option>
-                  ))}
-               </Select>
-            </div>
+            <FilterOneSelect
+               title="Category"
+               filterFiled="category"
+               filter={filter}
+               setFilter={setFilter}
+               items={filteringData.categories}
+            />
             {/* Brand filter */}
-            <div className="w-fit">
-               <Select
-                  placeholder=""
-                  value={filter.brand}
-                  label="Filter by Brand"
-                  onChange={(e) => setFilter({ ...filter, brand: e })}
-                  size="md"
-                  className=""
-               >
-                  {filteringData.brands.map((item: string, i: number) => (
-                     <Option
-                        value={item}
-                        key={i}
-                     >
-                        {item}
-                     </Option>
-                  ))}
-               </Select>
-            </div>
+            <FilterOneSelect
+               title="Brand"
+               filter={filter}
+               setFilter={setFilter}
+               filterFiled="brand"
+               items={filteringData.brands}
+            />
+            {/* Model filter */}
+            <FilterOneSelect
+               title="Model"
+               filter={filter}
+               setFilter={setFilter}
+               filterFiled="model"
+               items={filteringData.models}
+            />
+            {/* Operating system filter */}
+            <FilterOneSelect
+               title="Operating System"
+               filter={filter}
+               setFilter={setFilter}
+               filterFiled="operatingSystem"
+               items={["ios", "android", "windows", "linux"]}
+            />
+            {/* Power Source filter */}
+            <FilterOneSelect
+               title="Power Source"
+               filter={filter}
+               setFilter={setFilter}
+               filterFiled="powerSource"
+               items={filteringData.powerSources}
+            />
             <div>
-               <Menu>
+               <Menu
+                  dismiss={{
+                     itemPress: false,
+                  }}
+               >
                   <MenuHandler>
-                     <Button placeholder="">Brand</Button>
+                     <Button placeholder="">Menu</Button>
                   </MenuHandler>
                   <MenuList placeholder="">
-                     <MenuItem
-                        placeholder=""
-                        className="p-0"
-                     >
-                        <label
-                           htmlFor="item-1"
-                           className="flex cursor-pointer items-center gap-2 p-2"
-                        >
-                           <Checkbox
-                              crossOrigin=""
-                              id="item-1"
-                              containerProps={{ className: "p-0" }}
-                              className="hover:before:content-none"
-                              // onClick={() => setFilter("apple")}
-                           />
-                           Menu Item 1
-                        </label>
-                     </MenuItem>
-                     <MenuItem
-                        placeholder=""
-                        className="p-0"
-                     >
-                        <label
-                           htmlFor="item-2"
-                           className="flex cursor-pointer items-center gap-2 p-2"
-                        >
-                           <Checkbox
-                              crossOrigin=""
-                              id="item-2"
-                              containerProps={{ className: "p-0" }}
-                              className="hover:before:content-none"
-                           />
-                           Menu Item 2
-                        </label>
-                     </MenuItem>
-                     <MenuItem
-                        placeholder=""
-                        className="p-0"
-                     >
-                        <label
-                           htmlFor="item-3"
-                           className="flex cursor-pointer items-center gap-2 p-2"
-                        >
-                           <Checkbox
-                              crossOrigin=""
-                              id="item-3"
-                              containerProps={{ className: "p-0" }}
-                              className="hover:before:content-none"
-                           />
-                           Menu Item 3
-                        </label>
-                     </MenuItem>
+                     {filteringData.connectivity &&
+                        filteringData.connectivity.map(
+                           (item: string, i: number) => (
+                              <MenuItem
+                                 key={i}
+                                 placeholder=""
+                                 className="p-0"
+                              >
+                                 <label
+                                    htmlFor={`${item}-${i}`}
+                                    className="flex cursor-pointer items-center gap-2 p-2"
+                                 >
+                                    <Checkbox
+                                       crossOrigin=""
+                                       ripple={false}
+                                       id="item-1"
+                                       containerProps={{ className: "p-0" }}
+                                       onClick={(
+                                          e: MouseEvent<HTMLInputElement>
+                                       ) =>
+                                          setFilter({
+                                             ...filter,
+                                             connectivity: e.currentTarget
+                                                .checked
+                                                ? [...filter.connectivity, item]
+                                                : filter.connectivity.filter(
+                                                     (i: string) => i !== item
+                                                  ),
+                                          })
+                                       }
+                                       className="hover:before:content-none"
+                                    />
+                                    {item}
+                                 </label>
+                              </MenuItem>
+                           )
+                        )}
                   </MenuList>
                </Menu>
             </div>

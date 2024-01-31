@@ -10,7 +10,8 @@ import { RootState } from "../store";
 import { jwtDecode } from "jwt-decode";
 import { logOutUser } from "../features/auth/authSlice";
 
-const serverUrl = import.meta.env.VITE_SERVER_URL;
+// const serverUrl = import.meta.env.VITE_SERVER_URL;
+const serverUrl = "https://munalex-server.vercel.app/api/v1";
 const baseQuery = fetchBaseQuery({
    baseUrl: serverUrl,
    prepareHeaders: (headers, api) => {

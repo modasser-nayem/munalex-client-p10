@@ -1,5 +1,4 @@
 import {
-   Card,
    Typography,
    List,
    ListItem,
@@ -10,6 +9,7 @@ import {
    PlusCircleIcon,
    ChartBarIcon,
    BuildingStorefrontIcon,
+   XMarkIcon,
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
@@ -19,11 +19,8 @@ const Sidebar = () => {
    const dispatch = useAppDispatch();
 
    return (
-      <Card
-         placeholder=""
-         className="md:h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 rounded-none"
-      >
-         <div className="mb-2 p-4">
+      <div className="">
+         <div className="mb-3 p-5">
             <Typography
                placeholder=""
                variant="h5"
@@ -57,23 +54,6 @@ const Sidebar = () => {
                   Sales History
                </ListItem>
             </Link>
-            {/* <Link to="/all-sales">
-               <ListItem placeholder="">
-                  <ListItemPrefix placeholder="">
-                     <ShoppingBagIcon className="h-5 w-5" />
-                  </ListItemPrefix>
-                  All Sales
-                  <ListItemSuffix placeholder="">
-                     <Chip
-                        value="14"
-                        size="sm"
-                        variant="ghost"
-                        color="blue-gray"
-                        className="rounded-full"
-                     />
-                  </ListItemSuffix>
-               </ListItem>
-            </Link> */}
             <ListItem
                placeholder=""
                onClick={() => dispatch(logOutUser())}
@@ -84,7 +64,7 @@ const Sidebar = () => {
                Log Out
             </ListItem>
          </List>
-      </Card>
+      </div>
    );
 };
 

@@ -11,17 +11,7 @@ const App = () => {
    if (isSuccess) {
       dispatch(setUser(data.data));
    }
-   return (
-      <>
-         {!isLoading ? (
-            <div>
-               <MainLayout />
-            </div>
-         ) : (
-            <Loading />
-         )}
-      </>
-   );
+   return <>{!isLoading ? <MainLayout /> : <Loading />}</>;
 };
 
 export default App;

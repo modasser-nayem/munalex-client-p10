@@ -48,10 +48,6 @@ export const routes = createBrowserRouter([
             path: "sales-history",
             element: <SalesHistory />,
          },
-         {
-            path: "all-sales",
-            element: <CreateNewProduct />,
-         },
       ],
    },
    {

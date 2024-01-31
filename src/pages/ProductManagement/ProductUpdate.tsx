@@ -46,7 +46,7 @@ const ProductUpdate = () => {
          {!productData && !isProductDataSuccess ? (
             <Loading />
          ) : (
-            <div className="mt-10">
+            <div className="my-10 mx-5">
                <ProductForm
                   isLoading={isLoading}
                   title="Update Product"

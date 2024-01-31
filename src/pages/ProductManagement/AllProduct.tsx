@@ -1,86 +1,57 @@
-import {
-   useDynamicFilteringDataQuery,
-   useGetAllProductsQuery,
-} from "../../redux/features/product/productApi";
+import { useGetAllProductsQuery } from "../../redux/features/product/productApi";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import {
-   Card,
-   CardHeader,
-   Typography,
-   CardBody,
-   Input,
-} from "@material-tailwind/react";
+import { Input } from "@material-tailwind/react";
 import ProductCard, { TProductCardProps } from "../../components/ProductCard";
 import Loading from "../../components/Loading";
-import ProductFiltering from "../../components/ProductFiltering";
 import { useState } from "react";
+import FilterSidebar from "../../components/layout/FilterSidebar";
+
+type TFilter = {
+   minPrice?: number;
+   maxPrice?: number;
+   releaseDateStart?: Date;
+   releaseDateEnd?: Date;
+   brand?: string;
+   model?: string;
+   category?: string;
+   operatingSystem?: string;
+   connectivity?: [];
+   powerSource?: string;
+   search?: string;
+};
 
 const AllProduct = () => {
-   const [filter, setFilter] = useState({});
-   // get filtering data
-   const { data: dynamicFilterData, isLoading: isDynamicFilterLoading } =
-      useDynamicFilteringDataQuery(undefined);
+   const [filter, setFilter] = useState<TFilter>({
+      connectivity: [],
+   });
 
    // get all product
-   const { data, isLoading } = useGetAllProductsQuery(undefined);
+   const { data, isLoading } = useGetAllProductsQuery(filter);
 
    console.log(filter);
    return (
-      <div>
-         <Card
-            placeholder=""
-            className="h-full w-full"
-         >
-            {isDynamicFilterLoading ? (
-               <Loading />
-            ) : !dynamicFilterData ? (
-               <Loading />
-            ) : (
-               <CardHeader
-                  placeholder=""
-                  floated={false}
-                  shadow={false}
-                  className="rounded-none"
-               >
-                  <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
-                     <div>
-                        <Typography
-                           placeholder=""
-                           variant="h5"
-                           color="blue-gray"
-                        >
-                           Recent Transactions
-                        </Typography>
-                        <Typography
-                           placeholder=""
-                           color="gray"
-                           className="mt-1 font-normal"
-                        >
-                           These are details about the last transactions
-                        </Typography>
-                     </div>
-                     <div className="flex w-full shrink-0 gap-2 md:w-max">
-                        <div className="w-full md:w-72">
-                           <Input
-                              crossOrigin=""
-                              label="Search"
-                              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                           />
-                        </div>
-                     </div>
-                  </div>
-                  <ProductFiltering
-                     filteringData={dynamicFilterData.data}
-                     filter={filter}
-                     setFilter={setFilter}
+      <div className="flex">
+         <div className="w-full border-2 h-screen overflow-y-auto">
+            <div className="flex gap-5 justify-between p-5 bg-white">
+               <div className="w-full md:w-72">
+                  <Input
+                     crossOrigin=""
+                     label="Search"
+                     onChange={(e) =>
+                        setFilter({
+                           ...filter,
+                           search: e.target.value,
+                        })
+                     }
+                     icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                   />
-               </CardHeader>
-            )}
-            <CardBody
-               key="5"
-               placeholder=""
-               className="flex flex-wrap gap-8"
-            >
+               </div>
+               <FilterSidebar
+                  filter={filter}
+                  setFilter={setFilter}
+               />
+            </div>
+            <div className="flex flex-wrap gap-8">
                {isLoading ? (
                   <Loading />
                ) : !data ? (
@@ -115,8 +86,8 @@ const AllProduct = () => {
                      )
                   )
                )}
-            </CardBody>
-         </Card>
+            </div>
+         </div>
       </div>
    );
 };

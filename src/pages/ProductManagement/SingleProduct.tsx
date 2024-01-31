@@ -14,7 +14,7 @@ const SingleProduct = () => {
    return (
       <>
          {data && (
-            <div>
+            <div className="my-10 mx-5">
                <div>
                   <img
                      src={data.data.image}

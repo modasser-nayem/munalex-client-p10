@@ -45,6 +45,7 @@ export const productApi = baseApi.injectEndpoints({
             url: "/products/filtering-data",
             method: "GET",
          }),
+         providesTags: ["product"],
       }),
    }),
 });

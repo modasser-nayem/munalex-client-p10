@@ -32,7 +32,7 @@ const SalesHistory = () => {
    }
 
    return (
-      <div className="">
+      <div className="my-10 mx-5">
          <div className="w-72 mx-auto mt-10 mb-5">
             <Select
                placeholder=""
